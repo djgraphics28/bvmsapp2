@@ -34,7 +34,7 @@ class LoginView extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 22,
                         fontWeight: FontWeight.bold,
-                        color: Colors.blueGrey,
+                        color: Colors.deepPurple,
                       ),
                       textAlign: TextAlign.center,
                     ),
@@ -88,7 +88,7 @@ class LoginView extends StatelessWidget {
                             },
                             child: const Text(
                               'Forgot Password?',
-                              style: TextStyle(color: Colors.blueGrey),
+                              style: TextStyle(color: Colors.deepPurpleAccent),
                             ),
                           ),
                         ),

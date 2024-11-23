@@ -17,7 +17,7 @@ class CustomLoginButton extends StatelessWidget {
       onPressed: isLoading ? null : onPressed,
       style: ElevatedButton.styleFrom(
         padding: const EdgeInsets.symmetric(horizontal: 130, vertical: 16),
-        backgroundColor: Colors.green[400],
+        backgroundColor: Colors.deepPurple,
         foregroundColor: Colors.white,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8),

@@ -40,7 +40,7 @@ class HomeView extends StatelessWidget {
           currentIndex: controller.currentIndex.value,
           onTap: controller.changeTabIndex,
           backgroundColor: Colors.blueAccent, // Set background color explicitly
-          selectedItemColor: Colors.green, // Set color of selected icon/text
+          selectedItemColor: Colors.purple[300], // Set color of selected icon/text
           unselectedItemColor: Colors.grey, // Set color of unselected icon/text
           items: const [
             BottomNavigationBarItem(
