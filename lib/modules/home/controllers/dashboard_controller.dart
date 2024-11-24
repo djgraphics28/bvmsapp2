@@ -1,11 +1,11 @@
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'dart:async'; // Import the Timer class
-
+import 'package:bvmsapp2/core/services/api_service.dart';
 class DashboardController extends GetxController {
   var userName = "John Doe".obs; // Example user name
   var currentDateTime = DateTime.now().obs;
-  
+  var totalIncidents = 0.obs;  // Reactive variable to hold the total incident count
   var announcements = [
     // "New safety measures implemented.",
     // "Next inspection on Thursday.",
@@ -15,57 +15,73 @@ class DashboardController extends GetxController {
   var activeVehicles = [
     {
       "vehicle": "Toyota Land Cruiser",
+      "brand": "Toyota",
+      "model_name": "Land Cruiser",
+      "year_model": "2023",
       "driver": "Juan Dela Cruz",
       "status": "Active",
+      "plate_number": "BA9285",
       "location": "Barangay Hall",
     },
     {
-      "vehicle": "Honda Civic",
+      "vehicle": "L300",
+      "brand": "Mitsubishi",
+      "model_name": "L300",
+      "year_model": "2007",
       "driver": "Maria Santos",
       "status": "Inactive",
+      "plate_number": "GAB9285",
+      "location": "Not Assigned",
+    },
+    {
+      "vehicle": "L300",
+      "brand": "Mitsubishi",
+      "model_name": "L300",
+      "year_model": "2012",
+      "driver": "Maria Santos",
+      "status": "Inactive",
+      "plate_number": "DD9125",
+      "location": "Not Assigned",
+    },
+    {
+      "vehicle": "Toyota Vios",
+      "model_name": "Toyota Vios",
+      "brand": "Toyota",
+      "year_model": "2017",
+      "driver": "Maria Santos", 
+      "status": "Inactive",
+      "plate_number": "UD9285",
       "location": "Not Assigned",
     },
     {
       "vehicle": "Honda Civic",
+      "brand": "Honda",
+      "model_name": "Honda Civic",
+      "year_model": "2019",
       "driver": "Maria Santos",
       "status": "Inactive",
+      "plate_number": "UD9285",
       "location": "Not Assigned",
     },
     {
       "vehicle": "Honda Civic",
+      "brand": "Honda",
+      "model_name": "Honda Civic",
+      "year_model": "2021",
       "driver": "Maria Santos",
       "status": "Inactive",
+      "plate_number": "UD9285",
       "location": "Not Assigned",
     },
-    {
-      "vehicle": "Honda Civic",
-      "driver": "Maria Santos",
-      "status": "Inactive",
-      "location": "Not Assigned",
-    },
-    {
-      "vehicle": "Honda Civic",
-      "driver": "Maria Santos",
-      "status": "Inactive",
-      "location": "Not Assigned",
-    },
-     {
-      "vehicle": "Honda Civic",
-      "driver": "Maria Santos",
-      "status": "Inactive",
-      "location": "Not Assigned",
-    },
-     {
-      "vehicle": "Honda Civic",
-      "driver": "Maria Santos",
-      "status": "Inactive",
-      "location": "Not Assigned",
-    }
+    
   ].obs;
 
   // Filter by "All", "Active", or "Inactive"
   var selectedFilter = "All".obs;
 
+  // Reactive list for storing incidents
+  RxList<Map<String, dynamic>> incidents = <Map<String, dynamic>>[].obs;
+  
   @override
   void onInit() {
     super.onInit();
@@ -78,6 +94,8 @@ class DashboardController extends GetxController {
     ever(selectedFilter, (_) {
       updateVehicleFilter();
     });
+
+      fetchIncidents();
   }
 
   String get formattedDate {
@@ -111,4 +129,22 @@ class DashboardController extends GetxController {
       }).toList();
     }
   }
+  void fetchIncidents() async {
+    String? token = '21|pUgLKWZmgQiqsdhZkdvFaWq1K3PHeCAcImZpGrvm938843fd'; // Replace with actual token
+
+    // Fetch incidents
+    var fetchedIncidents = await ApiService.getIncidents(page: 1, perPage: 10, token: token);
+
+    if (fetchedIncidents != null) {
+      incidents.value = fetchedIncidents; // Now you can use .value to update the list
+      print('Incidents fetched successfully');
+      print(fetchedIncidents);
+    } else {
+      print('Failed to fetch incidents');
+    }
+  }
+
+
+
+
 }

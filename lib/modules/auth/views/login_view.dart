@@ -34,7 +34,7 @@ class LoginView extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 22,
                         fontWeight: FontWeight.bold,
-                        color: Colors.deepPurple,
+                        color: Color.fromARGB(255, 7, 28, 83),
                       ),
                       textAlign: TextAlign.center,
                     ),
@@ -53,7 +53,11 @@ class LoginView extends StatelessWidget {
                     child: Column(
                       children: [
                         // Email Input
-                        TextField(
+                     
+                        const SizedBox(height: 16),
+
+                        // Password Input
+                          TextField(
                           controller: controller.emailController,
                           onChanged: (value) => controller.email.value = value,
                           decoration: const InputDecoration(
@@ -76,6 +80,7 @@ class LoginView extends StatelessWidget {
                             border: OutlineInputBorder(),
                           ),
                         ),
+               
                         const SizedBox(height: 8),
 
                         // Forgot Password Link
@@ -96,14 +101,20 @@ class LoginView extends StatelessWidget {
                         const SizedBox(height: 20),
 
                         // Login Button
-                        Obx(() => CustomLoginButton(
-                              isLoading: controller.isLoading.value,
-                              // onPressed: controller.login,
-                              onPressed: () {
-                                // Implement forgot password functionality
-                                Get.toNamed('/home');
-                              },
-                            )),
+                        Obx(() {
+                          return CustomLoginButton(
+                            isLoading: controller.isLoading.value, // Pass the loading state to the button
+                            onPressed: controller.isLoading.value
+                                ? () {} // Provide an empty function when loading (button is disabled)
+                                : () {
+                                    // Grab the email and password from the reactive variables
+                                    String email = controller.email.value;
+                                    String password = controller.password.value;
+                                    // Call the controller's login method
+                                    controller.login();
+                                  },
+                          );
+                        }),
                       ],
                     ),
                   ),

@@ -1,7 +1,6 @@
-// lib/modules/home/views/profile_view.dart
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../controllers/profile_controller.dart'; // Assuming you have a controller for this
+import '../controllers/profile_controller.dart'; 
 
 class ProfileView extends StatelessWidget {
   ProfileView({super.key});
@@ -27,64 +26,64 @@ class ProfileView extends StatelessWidget {
           ),
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Profile picture (top)
-              Center(
-                child: CircleAvatar(
-                  radius: 50,
-                  backgroundImage: AssetImage(
-                      'assets/images/user.png'), // Ensure the image path is correct
+      body: Obx(() {
+        // Show a loading indicator while fetching data
+        if (controller.isLoading.value) {
+          return Center(child: CircularProgressIndicator());
+        }
+
+        return Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Profile picture (top)
+                Center(
+                  child: CircleAvatar(
+                    radius: 50,
+                    backgroundImage: NetworkImage(controller.profilePicUrl.value),
+                  ),
                 ),
-              ),
 
-              const SizedBox(height: 20),
+                const SizedBox(height: 20),
 
-              // First Name
-              _buildProfileField('First Name', controller.firstNameController,
-                  controller.isEditMode.value),
-              const SizedBox(height: 16),
+                // First Name
+                _buildProfileField('First Name', controller.firstNameController, controller.isEditMode.value),
+                const SizedBox(height: 16),
 
-              // Middle Name
-              _buildProfileField('Middle Name', controller.middleNameController,
-                  controller.isEditMode.value),
-              const SizedBox(height: 16),
+                // Last Name
+                _buildProfileField('Last Name', controller.lastNameController, controller.isEditMode.value),
+                const SizedBox(height: 16),
 
-              // Last Name
-              _buildProfileField('Last Name', controller.lastNameController,
-                  controller.isEditMode.value),
-              const SizedBox(height: 16),
+                // Email
+                _buildProfileField('Email', controller.emailController, controller.isEditMode.value),
+                const SizedBox(height: 16),
 
-              // Gender
-              _buildProfileField('Gender', controller.genderController,
-                  controller.isEditMode.value),
-              const SizedBox(height: 16),
+                // User Type
+                _buildProfileField('User Type', controller.userTypeController, controller.isEditMode.value),
+                const SizedBox(height: 16),
 
-              // Birth Date
-              _buildProfileField('Birth Date', controller.birthDateController,
-                  controller.isEditMode.value),
-              const SizedBox(height: 16),
+                // Created At (Account creation date)
+                _buildProfileField('Account Created At', controller.createdAtController, false),  // This is non-editable
+                const SizedBox(height: 16),
 
-              // Update button when in edit mode
-              if (controller.isEditMode.value)
-                ElevatedButton(
-                  onPressed: controller.updateProfile,
-                  child: const Text('Update Profile'),
-                ),
-            ],
+                // Update button when in edit mode
+                if (controller.isEditMode.value)
+                  ElevatedButton(
+                    onPressed: controller.updateProfile,
+                    child: const Text('Update Profile'),
+                  ),
+              ],
+            ),
           ),
-        ),
-      ),
+        );
+      }),
     );
   }
 
   // Function to build each editable or non-editable field
-  Widget _buildProfileField(
-      String label, TextEditingController controller, bool isEditable) {
+  Widget _buildProfileField(String label, TextEditingController controller, bool isEditable) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

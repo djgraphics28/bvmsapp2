@@ -13,13 +13,6 @@ class VehicleInfoScreen extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           title: Text(vehicle["vehicle"] ?? 'Vehicle Info'),
-          bottom: TabBar(
-            tabs: [
-              Tab(text: 'Driver History'),
-              Tab(text: 'Incident Reports'),
-              Tab(text: 'Service History'),
-            ],
-          ),
         ),
         body: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -27,11 +20,15 @@ class VehicleInfoScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Vehicle Information
+           
               Text(
                 "Vehicle: ${vehicle['vehicle']}",
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 10),
+              Text("Brand: ${vehicle['brand']}"),
+              Text("Model Name: ${vehicle['model_name']}"),
+              Text("Plate #: ${vehicle['plate_number']}"),
               Text("Driver: ${vehicle['driver']}"),
               Text("Status: ${vehicle['status']}"),
               Text("Location: ${vehicle['location']}"),
@@ -52,7 +49,13 @@ class VehicleInfoScreen extends StatelessWidget {
                 ],
               ),
               SizedBox(height: 20),
-
+              TabBar(
+                tabs: [
+                  Tab(text: 'Driver History'),
+                  Tab(text: 'Incident Reports'),
+                  Tab(text: 'Service History'),
+                ],
+              ),
               // Vehicle Tabs
               Expanded(
                 child: TabBarView(
