@@ -12,6 +12,8 @@ class DashboardView extends StatelessWidget {
     // Register the controller here
     final DashboardController controller = Get.put(DashboardController());
 
+    print(controller);
+    print(controller.activeVehicles);
     return Scaffold(
   
       body: SingleChildScrollView(  // Make the entire body scrollable
@@ -279,73 +281,85 @@ class DashboardView extends StatelessWidget {
                     var vehicle = controller.activeVehicles[index];
                     return GestureDetector(
                       onTap: () {
-                        Get.to(() => VehicleInfoScreen(vehicle: vehicle));
+                        Get.to(() => VehicleInfoScreen(
+                            vehicle: vehicle.map((key, value) =>
+                                MapEntry(key, value.toString()))));
                       },
-                      child: Card(
-                        elevation: 5,
-                        margin: const EdgeInsets.symmetric(vertical: 10.0),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: Row(
-                            children: [
-                              // Icon for Vehicle
-                              Container(
-                                width: 60,
-                                height: 60,
-                                decoration: BoxDecoration(
-                                  color: Colors.purple[100],
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                                child: const Icon(
-                                  Icons.directions_car,
-                                  size: 36,
-                                  color: Colors.purple,
-                                ),
+
+                     child: Card(
+                              elevation: 5,
+                              margin: const EdgeInsets.symmetric(vertical: 10.0),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15),
                               ),
-                              const SizedBox(width: 16),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                              child: Padding(
+                                padding: const EdgeInsets.all(16.0),
+                                child: Row(
                                   children: [
-                                    Text(
-                                      vehicle["vehicle"]!,
-                                      style: const TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 18,
+                                    // Vehicle Photo
+                                    Container(
+                                      width: 60,
+                                      height: 60,
+                                      decoration: BoxDecoration(
+                                        color: Colors.purple[100],
+                                        borderRadius: BorderRadius.circular(12),
+                                        image: DecorationImage(
+                                          image: NetworkImage(vehicle["photo"] ?? ""),
+                                          fit: BoxFit.cover,
+                                        ),
                                       ),
                                     ),
-                                    const SizedBox(height: 4),
-                                    Text(
-                                      'Driver: ${vehicle["driver"]}',
-                                      style: const TextStyle(
-                                        fontSize: 14,
-                                        color: Colors.grey,
-                                      ),
-                                    ),
-                                    Text(
-                                      'Status: ${vehicle["status"]}',
-                                      style: const TextStyle(
-                                        fontSize: 14,
-                                        color: Colors.grey,
-                                      ),
-                                    ),
-                                    Text(
-                                      'Location: ${vehicle["location"]}',
-                                      style: const TextStyle(
-                                        fontSize: 14,
-                                        color: Colors.grey,
+                                    const SizedBox(width: 16),
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            vehicle["brand"] ?? "Unknown Brand",
+                                            style: const TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 18,
+                                            ),
+                                          ),
+                                          const SizedBox(height: 4),
+                                          Text(
+                                            'Model: ${vehicle["model"] ?? "Unknown Model"}',
+                                            style: const TextStyle(
+                                              fontSize: 14,
+                                              color: Colors.grey,
+                                            ),
+                                          ),
+                                          Text(
+                                            'Plate: ${vehicle["plate_number"] ?? "N/A"}',
+                                            style: const TextStyle(
+                                              fontSize: 14,
+                                              color: Colors.grey,
+                                            ),
+                                          ),
+                                          Text(
+                                            'Status: ${vehicle["status"] ?? "N/A"}',
+                                            style: TextStyle(
+                                              fontSize: 14,
+                                              color: vehicle["status"] == "working"
+                                                  ? Colors.green
+                                                  : Colors.red,
+                                            ),
+                                          ),
+                                          Text(
+                                            'Location: ${vehicle["barangay"] ?? "Unknown"}',
+                                            style: const TextStyle(
+                                              fontSize: 14,
+                                              color: Colors.grey,
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                     ),
                                   ],
                                 ),
                               ),
-                            ],
-                          ),
-                        ),
-                      ),
+                            ),
+
                     );
                   },
                 );

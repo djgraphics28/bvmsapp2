@@ -29,8 +29,9 @@ class ProfileController extends GetxController {
   // Fetch Profile data
   void fetchProfile(String token) async {
     try {
-      var profile = await ApiService.getProfile(token);
+      var profile = await ApiService.getProfile();
 
+      print(profile);
       if (profile != null) {
         // If profile data is available, populate the controllers
         var nameParts = profile['name']?.split(' ') ?? [];
@@ -59,7 +60,7 @@ class ProfileController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    String token = "27|kzT3iFePt15DOAmyXJhzn2aWlxUpcQqBvYV0IWaLcb8af937";  // You should retrieve this token dynamically
+    String token = "7|tdfiRUnRIjIcDHccAFmS7GJVsxysb5KS1EZL9xpZf8bac64d";  // You should retrieve this token dynamically
     fetchProfile(token);
   }
 

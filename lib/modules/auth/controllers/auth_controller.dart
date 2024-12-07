@@ -28,6 +28,7 @@ class AuthController extends GetxController {
       final response = await ApiService.login(email.value, password.value);
 
       if (response != null) {
+       print(response);
         // Handle successful login (e.g., navigate to Home screen)
         Get.offAllNamed('/home');
       } else {

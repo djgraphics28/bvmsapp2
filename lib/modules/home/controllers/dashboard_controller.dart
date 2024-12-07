@@ -12,69 +12,7 @@ class DashboardController extends GetxController {
     // "Holiday break starts next week.",
   ].obs;
 
-  var activeVehicles = [
-    {
-      "vehicle": "Toyota Land Cruiser",
-      "brand": "Toyota",
-      "model_name": "Land Cruiser",
-      "year_model": "2023",
-      "driver": "Juan Dela Cruz",
-      "status": "Active",
-      "plate_number": "BA9285",
-      "location": "Barangay Hall",
-    },
-    {
-      "vehicle": "L300",
-      "brand": "Mitsubishi",
-      "model_name": "L300",
-      "year_model": "2007",
-      "driver": "Maria Santos",
-      "status": "Inactive",
-      "plate_number": "GAB9285",
-      "location": "Not Assigned",
-    },
-    {
-      "vehicle": "L300",
-      "brand": "Mitsubishi",
-      "model_name": "L300",
-      "year_model": "2012",
-      "driver": "Maria Santos",
-      "status": "Inactive",
-      "plate_number": "DD9125",
-      "location": "Not Assigned",
-    },
-    {
-      "vehicle": "Toyota Vios",
-      "model_name": "Toyota Vios",
-      "brand": "Toyota",
-      "year_model": "2017",
-      "driver": "Maria Santos", 
-      "status": "Inactive",
-      "plate_number": "UD9285",
-      "location": "Not Assigned",
-    },
-    {
-      "vehicle": "Honda Civic",
-      "brand": "Honda",
-      "model_name": "Honda Civic",
-      "year_model": "2019",
-      "driver": "Maria Santos",
-      "status": "Inactive",
-      "plate_number": "UD9285",
-      "location": "Not Assigned",
-    },
-    {
-      "vehicle": "Honda Civic",
-      "brand": "Honda",
-      "model_name": "Honda Civic",
-      "year_model": "2021",
-      "driver": "Maria Santos",
-      "status": "Inactive",
-      "plate_number": "UD9285",
-      "location": "Not Assigned",
-    },
-    
-  ].obs;
+  var activeVehicles = <Map<String, dynamic>>[].obs; // Initialize as an empty reactive list
 
   // Filter by "All", "Active", or "Inactive"
   var selectedFilter = "All".obs;
@@ -96,10 +34,25 @@ class DashboardController extends GetxController {
     });
 
       fetchIncidents();
+      fetchVehicles();
   }
 
   String get formattedDate {
     return DateFormat('EEEE, MMMM d, yyyy – h:mm:ss a').format(currentDateTime.value);
+  }
+
+   void fetchVehicles() async {
+    String? token = '11|d8levdfAnMO8bkL0CpLre12xwb4osadR5hIXxOIA3607a4db'; // Replace with actual token
+
+    var fetchedVehicles = await ApiService.getVehicles();
+
+    print(fetchedVehicles);
+    if (fetchedVehicles != null) {
+      activeVehicles.value = fetchedVehicles;
+      print('Vehicles fetched successfully');
+    } else {
+      print('Failed to fetch vehicles');
+    }
   }
 
   // Filter active vehicles based on selected filter
@@ -130,10 +83,11 @@ class DashboardController extends GetxController {
     }
   }
   void fetchIncidents() async {
-    String? token = '21|pUgLKWZmgQiqsdhZkdvFaWq1K3PHeCAcImZpGrvm938843fd'; // Replace with actual token
+    String? token = '21|C04USeKriQxx38kTe6N9Ap0I1q5lnVRbBEQ0hHyW0bcf1fb8'; // Replace with actual token
 
     // Fetch incidents
-    var fetchedIncidents = await ApiService.getIncidents(page: 1, perPage: 10, token: token);
+    var fetchedIncidents = await ApiService.getIncidents(page: 1, perPage: 10);
+      print(fetchedIncidents);
 
     if (fetchedIncidents != null) {
       incidents.value = fetchedIncidents; // Now you can use .value to update the list
