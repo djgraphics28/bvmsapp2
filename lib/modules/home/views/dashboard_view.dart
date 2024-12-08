@@ -1,4 +1,5 @@
 import 'package:bvmsapp2/modules/home/controllers/dashboard_controller.dart';
+import 'package:bvmsapp2/modules/home/views/map_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'vehicle_info.dart';
@@ -13,8 +14,8 @@ class DashboardView extends StatelessWidget {
     final DashboardController controller = Get.put(DashboardController());
 
     return Scaffold(
-  
-      body: SingleChildScrollView(  // Make the entire body scrollable
+      body: SingleChildScrollView(
+        // Make the entire body scrollable
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
           child: Column(
@@ -22,152 +23,149 @@ class DashboardView extends StatelessWidget {
             children: [
               // Total Vehicle and Incident Cards
               // Membership Container
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  // Card 1: Incidents
+                  Expanded(
+                    child: Container(
+                      height: 120,
+                      padding: const EdgeInsets.all(10.0),
+                      decoration: BoxDecoration(
+                        color: Colors.purple[600],
+                        borderRadius: BorderRadius.circular(12.0),
+                      ),
+                      child: const Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Total no.',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 18.0,
+                              fontWeight: FontWeight.w600,
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                          ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              // Card 1: Incidents
-                              Expanded(
-                                child: Container(
-                                  height: 120,
-                                  padding: const EdgeInsets.all(10.0),
-                                  decoration: BoxDecoration(
-                                    color: Colors.purple[600],
-                                    borderRadius: BorderRadius.circular(12.0),
-                                  ),
-                                  child: const Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        'Total no.',
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 18.0,
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            '212',
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 27.0,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            'Available Vehicles',
-                                            style: TextStyle(
-                                              color: Colors.white70,
-                                              fontSize: 16.0,
-                                              fontWeight: FontWeight.w600,
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                    ],
-                                  ),
+                              Text(
+                                '212',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 27.0,
+                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              const SizedBox(width: 10),
-
-                              // Card 2: Due Vehicles
-                          Expanded(
-              child: Container(
-                height: 120,
-                padding: const EdgeInsets.all(10.0),
-                decoration: BoxDecoration(
-                  color: Color.fromARGB(255, 236, 88, 3),
-                  borderRadius: BorderRadius.circular(12.0),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Total no.',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18.0,
-                        fontWeight: FontWeight.w600,
-                      ),
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        // Use Obx() to bind totalIncidents and make it reactive
-                        Obx(() => Text(
-                              '${controller.totalIncidents.value}',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 27.0,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            )),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Incident Reports',
-                          style: TextStyle(
-                            color: Colors.white70,
-                            fontSize: 16.0,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        )
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ),
                             ],
                           ),
-           const SizedBox(height: 20),
-
-          // Title for Incident Reports Section with "See All" button
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              // Incident Reports Title
-              const Text(
-                'Incident Reports:',
-                style: TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                ),
-              ),
-              // "See All" TextButton on the right
-              TextButton(
-                onPressed: () {
-                  // Action to navigate or show more incidents
-                     Get.to(() => IncidentReportView());
-                },
-                child: const Text(
-                  'View All',
-                  style: TextStyle(
-                    fontSize: 14.0,
-                    fontWeight: FontWeight.w500,
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Available Vehicles',
+                                style: TextStyle(
+                                  color: Colors.white70,
+                                  fontSize: 16.0,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              )
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
-                ),
+                  const SizedBox(width: 10),
+
+                  // Card 2: Due Vehicles
+                  Expanded(
+                    child: Container(
+                      height: 120,
+                      padding: const EdgeInsets.all(10.0),
+                      decoration: BoxDecoration(
+                        color: Color.fromARGB(255, 236, 88, 3),
+                        borderRadius: BorderRadius.circular(12.0),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Total no.',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 18.0,
+                              fontWeight: FontWeight.w600,
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              // Use Obx() to bind totalIncidents and make it reactive
+                              Obx(() => Text(
+                                    '${controller.totalIncidents.value}',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 27.0,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  )),
+                            ],
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Incident Reports',
+                                style: TextStyle(
+                                  color: Colors.white70,
+                                  fontSize: 16.0,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              )
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
               ),
-            ],
-          ),
+              const SizedBox(height: 20),
 
-          const SizedBox(height: 10),
+              // Title for Incident Reports Section with "See All" button
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  // Incident Reports Title
+                  const Text(
+                    'Incident Reports:',
+                    style: TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                    ),
+                  ),
+                  // "See All" TextButton on the right
+                  TextButton(
+                    onPressed: () {
+                      // Action to navigate or show more incidents
+                      Get.to(() => IncidentReportView());
+                    },
+                    child: const Text(
+                      'View All',
+                      style: TextStyle(
+                        fontSize: 14.0,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
 
+              const SizedBox(height: 10),
 
               // List of Top 5 Incident Reports
               Obx(() {
@@ -258,7 +256,7 @@ class DashboardView extends StatelessWidget {
 
               // Title for Active Vehicles Section
               const Text(
-                'Active Vehicles and Drivers:',
+                'List of Vehicles',
                 style: TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.bold,
@@ -277,6 +275,7 @@ class DashboardView extends StatelessWidget {
                       : controller.activeVehicles.length,
                   itemBuilder: (context, index) {
                     var vehicle = controller.activeVehicles[index];
+<<<<<<< Updated upstream
                     return GestureDetector(
                       onTap: () {
                         Get.to(() => VehicleInfoScreen(vehicle: vehicle));
@@ -293,11 +292,32 @@ class DashboardView extends StatelessWidget {
                             children: [
                               // Icon for Vehicle
                               Container(
+=======
+                    return Card(
+                      elevation: 5,
+                      margin: const EdgeInsets.symmetric(vertical: 10.0),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Row(
+                          children: [
+                            // Vehicle Photo
+                            GestureDetector(
+                              onTap: () {
+                                Get.to(() => VehicleInfoScreen(
+                                    vehicle: vehicle.map((key, value) =>
+                                        MapEntry(key, value.toString()))));
+                              },
+                              child: Container(
+>>>>>>> Stashed changes
                                 width: 60,
                                 height: 60,
                                 decoration: BoxDecoration(
                                   color: Colors.purple[100],
                                   borderRadius: BorderRadius.circular(12),
+<<<<<<< Updated upstream
                                 ),
                                 child: const Icon(
                                   Icons.directions_car,
@@ -344,6 +364,86 @@ class DashboardView extends StatelessWidget {
                               ),
                             ],
                           ),
+=======
+                                  image: DecorationImage(
+                                    image: NetworkImage(vehicle["photo"] ?? ""),
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(width: 16),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    vehicle["brand"] ?? "Unknown Brand",
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 4),
+                                  Text(
+                                    'Model: ${vehicle["model"] ?? "Unknown Model"}',
+                                    style: const TextStyle(
+                                      fontSize: 14,
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                  Text(
+                                    'Plate #: ${vehicle["plate_number"] ?? "N/A"}',
+                                    style: const TextStyle(
+                                      fontSize: 14,
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                  Text(
+                                    'Status: ${vehicle["status"] ?? "N/A"}',
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      color: vehicle["status"] == "working"
+                                          ? Colors.green
+                                          : Colors.red,
+                                    ),
+                                  ),
+                                  Text(
+                                    'Location: ${vehicle["barangay"] ?? "Unknown"}',
+                                    style: const TextStyle(
+                                      fontSize: 14,
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                Get.to(() => MapViewScreen(
+                                    vehicle: vehicle.map((key, value) =>
+                                        MapEntry(key, value.toString())),
+                                    latitude: double.parse(
+                                        vehicle["latitude"] ?? "16.050200"),
+                                    longitude: double.parse(
+                                        vehicle["longitude"] ?? "120.587310")));
+                              },
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(Icons.map, color: Colors.blue),
+                                  Text(
+                                    'View on Maps',
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      color: Colors.blue,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )
+                          ],
+>>>>>>> Stashed changes
                         ),
                       ),
                     );

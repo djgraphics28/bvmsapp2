@@ -14,6 +14,7 @@ class IncidentReportView extends StatelessWidget {
       TextEditingController dateController = TextEditingController();
       TextEditingController statusController = TextEditingController();
 
+<<<<<<< Updated upstream
       showModalBottomSheet(
         context: context,
         isScrollControlled: true,
@@ -27,6 +28,179 @@ class IncidentReportView extends StatelessWidget {
                 const Text(
                   'Submit Incident Report',
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+=======
+    TextEditingController titleController = TextEditingController();
+    TextEditingController descriptionController = TextEditingController();
+    TextEditingController locationController = TextEditingController();
+    TextEditingController userIdController = TextEditingController();
+
+    String? selectedPriority;
+    String? selectedType;
+    String? selectedStatus;
+    int? selectedCategoryId;
+    LatLng selectedLocation;
+    Location location = Location();
+
+    // Get the current location
+    PermissionStatus permissionGranted = await location.requestPermission();
+    LocationData locationData = await location.getLocation();
+
+    selectedLocation =
+        LatLng(locationData.latitude!, locationData.longitude!);
+
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      builder: (context) {
+        return Obx(() => Container(
+              height: 800, // Increased height to accommodate the map
+              padding: const EdgeInsets.all(20.0),
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Submit Incident Report',
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 20),
+                    SizedBox(
+                      height: 200, // Height of the map widget
+                      child: GoogleMap(
+                        initialCameraPosition: CameraPosition(
+                          target: selectedLocation,
+                          zoom: 14,
+                        ),
+                        onTap: (LatLng position) {
+                          selectedLocation = position;
+                          locationController.text =
+                              '${selectedLocation.latitude}, ${selectedLocation.longitude}';
+                        },
+                        markers: {
+                          Marker(
+                            markerId: const MarkerId('selected-location'),
+                            position: selectedLocation,
+                          ),
+                        },
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    TextField(
+                      controller: titleController,
+                      decoration: const InputDecoration(
+                        labelText: 'Title',
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    TextField(
+                      controller: descriptionController,
+                      decoration: const InputDecoration(
+                        labelText: 'Description',
+                        border: OutlineInputBorder(),
+                      ),
+                      maxLines: 3,
+                    ),
+                    const SizedBox(height: 10),
+                    TextField(
+                      controller: locationController,
+                      decoration: const InputDecoration(
+                        labelText: 'Location (Selected from Map)',
+                        border: OutlineInputBorder(),
+                      ),
+                      readOnly: true, // Prevent manual editing
+                    ),
+                    const SizedBox(height: 10),
+                    DropdownButtonFormField<String>(
+                      value: selectedPriority,
+                      onChanged: (value) => selectedPriority = value,
+                      items: incidentController.priorities
+                          .map((priority) => DropdownMenuItem(
+                                value: priority,
+                                child: Text(priority),
+                              ))
+                          .toList(),
+                      decoration: const InputDecoration(
+                        labelText: 'Priority',
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    DropdownButtonFormField<String>(
+                      value: selectedType,
+                      onChanged: (value) => selectedType = value,
+                      items: incidentController.types
+                          .map((type) => DropdownMenuItem(
+                                value: type,
+                                child: Text(type),
+                              ))
+                          .toList(),
+                      decoration: const InputDecoration(
+                        labelText: 'Type',
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    DropdownButtonFormField<String>(
+                      value: selectedStatus,
+                      onChanged: (value) => selectedStatus = value,
+                      items: incidentController.statuses
+                          .map((status) => DropdownMenuItem(
+                                value: status,
+                                child: Text(status),
+                              ))
+                          .toList(),
+                      decoration: const InputDecoration(
+                        labelText: 'Status',
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    DropdownButtonFormField<int>(
+                      value: selectedCategoryId,
+                      onChanged: (value) => selectedCategoryId = value,
+                      items: incidentController.categories
+                          .map((category) => DropdownMenuItem(
+                                value: category['id'] as int,
+                                child: Text(category['name'] as String),
+                              ))
+                          .toList(),
+                      decoration: const InputDecoration(
+                        labelText: 'Category',
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
+                    // const SizedBox(height: 10),
+                    // TextField(
+                    //   controller: userIdController,
+                    //   decoration: const InputDecoration(
+                    //     labelText: 'User ID',
+                    //     border: OutlineInputBorder(),
+                    //   ),
+                    //   keyboardType: TextInputType.number,
+                    // ),
+                    const SizedBox(height: 20),
+                    ElevatedButton(
+                      onPressed: () {
+                        final incidentData = {
+                          "title": titleController.text,
+                          "description": descriptionController.text,
+                          "location": locationController.text,
+                          "priority": selectedPriority?.toLowerCase(),
+                          "type": selectedType?.toLowerCase(),
+                          "status": selectedStatus?.toLowerCase(),
+                          "incident_category_id": selectedCategoryId,
+                          "user_id":
+                              int.tryParse(userIdController.text) ?? 0,
+                        };
+                        incidentController.submitIncident(incidentData);
+                        Navigator.pop(context); // Close modal
+                      },
+                      child: const Text('Submit'),
+                    ),
+                  ],
+>>>>>>> Stashed changes
                 ),
                 const SizedBox(height: 20),
                 TextField(
