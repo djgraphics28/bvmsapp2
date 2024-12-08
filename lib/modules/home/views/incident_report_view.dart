@@ -159,15 +159,15 @@ class IncidentReportView extends StatelessWidget {
                         border: OutlineInputBorder(),
                       ),
                     ),
-                    const SizedBox(height: 10),
-                    TextField(
-                      controller: userIdController,
-                      decoration: const InputDecoration(
-                        labelText: 'User ID',
-                        border: OutlineInputBorder(),
-                      ),
-                      keyboardType: TextInputType.number,
-                    ),
+                    // const SizedBox(height: 10),
+                    // TextField(
+                    //   controller: userIdController,
+                    //   decoration: const InputDecoration(
+                    //     labelText: 'User ID',
+                    //     border: OutlineInputBorder(),
+                    //   ),
+                    //   keyboardType: TextInputType.number,
+                    // ),
                     const SizedBox(height: 20),
                     ElevatedButton(
                       onPressed: () {

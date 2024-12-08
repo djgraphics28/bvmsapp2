@@ -10,7 +10,7 @@ class IncidentController extends GetxController {
   var categories = <Map<String, dynamic>>[].obs;
   RxBool isLoading = false.obs;
   // API endpoint
-  final String apiEndpoint = 'https://your-api-url.com';
+  final String apiEndpoint = 'https://bvms.online/api/';
 
   // Fetch dropdown data
   Future<void> fetchDropdownData() async {
@@ -19,8 +19,8 @@ class IncidentController extends GetxController {
       await Future.delayed(const Duration(seconds: 2));
 
       // Example data
-      priorities.assignAll(['High', 'Medium', 'Low']);
-      types.assignAll(['Request', 'Issue']);
+      priorities.assignAll(['low', 'medium', 'high']);
+      types.assignAll(['incident', 'request']);
       statuses.assignAll(['Pending', 'In Progress', 'Resolved']);
       categories.assignAll([
         {'id': 1, 'name': 'Electrical'},
@@ -31,6 +31,20 @@ class IncidentController extends GetxController {
       Get.snackbar('Error', 'Failed to load dropdown data');
     }
   }
+  //get categories
+  // Future<void> fetchCategories() async {
+  //   try {
+  //     isLoading.value = true; // Start loading
+  //     List<Map<String, dynamic>>? fetchedCategories = await ApiService.getCategories();
+  //     if (fetchedCategories != null) {
+  //       this.categories.assignAll(fetchedCategories);
+  //     }
+  //   } catch (e) {
+  //     Get.snackbar('Error', 'Failed to load categories');
+  //   } finally {
+  //     isLoading.value = false; // Stop loading in all cases
+  //   }
+  // }
  // Submit incident
   Future<void> submitIncident(Map<String, dynamic> incidentData) async {
     String token = '7|tdfiRUnRIjIcDHccAFmS7GJVsxysb5KS1EZL9xpZf8bac64d';

@@ -31,17 +31,20 @@ class ApiService {
         },
       );
 
-      if (response.statusCode == 200 && response.data['token'] != null) {
+      if (response.statusCode == 200) {
         final token = response.data['token'];
         await _saveToken(token);
         print('Login successful, token saved.');
-        return true; // Login success
-      } else {
-        print('Login failed: ${response.data}');
-        return false; // Login failed
+        return true;
       }
+
+      print('Login failed: ${response.data}');
+      return false;
+    } on DioException catch (e) {
+      print('Error during login: ${e.message}');
+      return false;
     } catch (e) {
-      print('Error during login: $e');
+      print('Unexpected error during login: $e');
       return false;
     }
   }
@@ -116,7 +119,9 @@ class ApiService {
 
       if (response.data != null) {
         List<dynamic> vehicles = response.data;
-        return vehicles.map((vehicle) => Map<String, dynamic>.from(vehicle)).toList();
+        return vehicles
+            .map((vehicle) => Map<String, dynamic>.from(vehicle))
+            .toList();
       } else {
         print('No vehicles found.');
         return [];
@@ -151,7 +156,8 @@ class ApiService {
         print('Incident report created successfully: ${response.data}');
         return true; // Success
       } else {
-        print('Failed to create incident report: ${response.statusCode}, ${response.data}');
+        print(
+            'Failed to create incident report: ${response.statusCode}, ${response.data}');
         return false; // Failure
       }
     } catch (e) {
@@ -186,13 +192,47 @@ class ApiService {
 
       if (response.data != null && response.data['data'] != null) {
         List<dynamic> incidents = response.data['data'];
-        return incidents.map((incident) => Map<String, dynamic>.from(incident)).toList();
+        return incidents
+            .map((incident) => Map<String, dynamic>.from(incident))
+            .toList();
       } else {
         print('No incidents found.');
         return [];
       }
     } catch (e) {
       print('Error fetching incidents: $e');
+      return null;
+    }
+  }
+
+  //getCatgories
+  static Future<List<Map<String, dynamic>>?> getCategories() async {
+    try {
+      final token = await _getToken();
+      if (token == null) throw Exception('No token found. Please log in.');
+
+      final response = await _dio.get(
+        '/incident-categories',
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $token',
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+          },
+        ),
+      );
+
+      if (response.data != null) {
+        List<dynamic> categories = response.data;
+        return categories
+            .map((category) => Map<String, dynamic>.from(category))
+            .toList();
+      } else {
+        print('No categories found.');
+        return [];
+      }
+    } catch (e) {
+      print('Error fetching categories: $e');
       return null;
     }
   }
